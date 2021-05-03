@@ -1,24 +1,25 @@
-import React from "react";
+import React, { useRef } from "react";
 
-//include images into your bundle
-import rigoImage from "../../img/rigo-baby.jpg";
+import { a } from "./lista.js";
 
-//create your first component
 export function Home() {
+	const songURL =
+		"https://assets.breatheco.de/apis/sound/" +
+		"files/mario/songs/castle.mp3";
+	const input = useRef(songURL);
+	// let listItems =
 	return (
-		<div className="text-center mt-5">
-			<h1>Hello Rigo!</h1>
-			<p>
-				<img src={rigoImage} />
-			</p>
-			<a href="#" className="btn btn-success">
-				If you see this green button... bootstrap is working
-			</a>
-			<p>
-				Made by{" "}
-				<a href="http://www.4geeksacademy.com">4Geeks Academy</a>, with
-				love!
-			</p>
+		<div className="text-center d-flex flex-column align-items-center text-white">
+			<div className="d-flex justify-content-center">
+				{a.map(number => (
+					<div key={number} className=" col-9 d-flex">
+						<h3>{number.id}</h3>
+						<h3 className="ml-5">{number.name}</h3>
+					</div>
+				))}
+			</div>
+			<audio src={songURL} controls />
+			<button className="btn btn-primary">Cambiar cancion</button>
 		</div>
 	);
 }
