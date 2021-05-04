@@ -1,4 +1,4 @@
-export const a = [
+export const b = [
 	{
 		id: 1,
 		category: "game",
@@ -66,7 +66,7 @@ export const a = [
 		url: "data/other/clock-ticking2.wav"
 	}
 ];
-let b = [
+export const a = [
 	{
 		id: 1,
 		category: "game",

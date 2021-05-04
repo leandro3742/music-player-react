@@ -1,5 +1,13 @@
 @import "~bootstrap/scss/bootstrap.scss";
 
 body{
-    background-color: black;
+    background-color: rgb(37, 37, 37);
+}
+.audio{
+    opacity: 0;
+}
+.container{
+    overflow-y: scroll;
+    width: 450px;
+    height: 500px;
 }
