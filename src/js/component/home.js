@@ -1,17 +1,32 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
-import { a } from "./lista.js";
 var i = 0;
 export function Home() {
 	let audio = useRef();
-	let video = useRef();
 	const [playPause, setPlayPause] = useState("Play");
+	const [url, setUrl] = useState([]);
+
+	const obtenerUrlAsync = async () => {
+		try {
+			const res = await fetch(
+				"https://assets.breatheco.de/apis/sound/songs"
+			);
+			const data = await res.json();
+			setUrl(data);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	useEffect(() => {
+		obtenerUrlAsync();
+	}, []);
 
 	const cambiarSrcAudio = indice => {
 		i = indice;
 		setPlayPause("Play");
 		audio.current.src =
-			"https://assets.breatheco.de/apis/sound/" + a[indice].url;
+			"https://assets.breatheco.de/apis/sound/" + url[indice].url;
 	};
 
 	const controlAudio = () => {
@@ -25,7 +40,7 @@ export function Home() {
 	};
 
 	const siguiente = () => {
-		if (i < a.length) {
+		if (i < url.length) {
 			i++;
 			cambiarSrcAudio(i);
 		} else {
@@ -38,7 +53,7 @@ export function Home() {
 			i--;
 			cambiarSrcAudio(i);
 		} else {
-			i = a.length - 1;
+			i = url.length - 1;
 			cambiarSrcAudio(i);
 		}
 	};
@@ -50,19 +65,24 @@ export function Home() {
 		<div className="d-flex flex-column align-items-center text-white">
 			<div className="border">
 				<div className="container mt-3 mb-3">
-					{a.map(number => (
-						<div
-							key={number.url}
-							className="border col-12 d-flex btn btn-secondary text-white m-2"
-							onClick={() => cambiarSrcAudio(number.id + 1)}>
-							<h3 key={number.id} className="mr-5">
-								{number.id}
-							</h3>
-							<h3 key={number.name} className="ml-2 b">
-								{number.name}
-							</h3>
-						</div>
-					))}
+					{url.map(number => {
+						return (
+							<div
+								key={number.url}
+								className="border col-12 d-flex btn btn-secondary text-white m-2"
+								onClick={() => cambiarSrcAudio(number.id + 1)}>
+								<h3 key={number.id} className="mr-5">
+									{number.id}
+								</h3>
+								<h3 key={number.name} className="ml-2 b">
+									{number.name}
+								</h3>
+							</div>
+						);
+					})}
+					{/* {a.map(number => (
+						
+					))} */}
 				</div>
 			</div>
 			<div className="border m-2">
@@ -89,7 +109,7 @@ export function Home() {
 			<audio
 				className="audio"
 				ref={audio}
-				src={"https://assets.breatheco.de/apis/sound/" + a[0].url}
+				// src={"https://assets.breatheco.de/apis/sound/" + url[0].url}
 				controls
 			/>
 		</div>
